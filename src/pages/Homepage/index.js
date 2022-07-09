@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import styled from 'styled-components'
+import MetaTags from 'react-meta-tags';
 
 //import images
 import logo from "../../assets/images/logo-sm.png";
@@ -64,8 +65,19 @@ const Wrapper = styled.div`
         font-size: 30px;
         line-height: 50px;
       }
-      .divider {
-        border: 2px solid #FFFFFF;
+      .dividerLeft {
+        border: 1px solid #FFFFFF;
+        position: absolute;
+        top: 25px;
+        width: 16%;
+        left: 16%;
+      }
+      .dividerRight {
+        border: 1px solid #FFFFFF;
+        position: absolute;
+        top: 25px;
+        width: 16%;
+        right: 16%;
       }
     }
   }
@@ -164,6 +176,9 @@ const Wrapper = styled.div`
 const PageMaintenance = props => {
   return (
     <Wrapper>
+      <MetaTags>
+        <title>Home | DOP Test Network</title>
+      </MetaTags>
       <header>
         <div className='containerFix'>
           <div className='row'>
@@ -194,7 +209,8 @@ const PageMaintenance = props => {
             <div>
               DOP Test Network is your
             </div>
-            <div className='divider'></div>
+            <div className='dividerLeft'></div>
+            <div className='dividerRight'></div>
             <div>
               All-in-one DOP testing, certificate printing, reporting &<br /> invoicing platform that you need.
             </div>
