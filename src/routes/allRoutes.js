@@ -5,6 +5,13 @@ import { Redirect } from "react-router-dom"
 import Dashboard from "../pages/Dashboard/index";
 import Projects from '../pages/Projects/index'
 import Invoices from '../pages/Invoices/index'
+import Reports from '../pages/Reports/index'
+import NewProject from '../pages/NewProject/index'
+import Settings from '../pages/Settings/index'
+import NewCoustomer from '../pages/NewCoustomer/index'
+import Customers from '../pages/Customers/index'
+import CustomerDetail from '../pages/Customers/detail.js'
+import CustomerEdit from '../pages/Customers/edit.js'
 
 // Authentication related pages
 import userProfile from "../pages/Authentication/user-profile"
@@ -27,10 +34,13 @@ const userRoutes = [
   
   { path: "/projects", component: Projects },
   { path: "/Invoices", component: Invoices },
-  // { path: "/projects", component: Projects },
-  // { path: "/projects", component: Projects },
-  // { path: "/projects", component: Projects },
-  // { path: "/projects", component: Projects },
+  { path: "/reports", component: Reports },
+  { path: "/newProject", component: NewProject },
+  { path: "/settings", component: Settings },
+  { path: "/newCustomer", component: NewCoustomer },
+  { path: "/customers", component: Customers },
+  { path: "/customers/detail/:id", component: CustomerDetail },
+  { path: "/customers/edit/:id", component: CustomerEdit },
 
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> }

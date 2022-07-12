@@ -1,5 +1,6 @@
 import React from 'react';
 import MetaTags from 'react-meta-tags';
+import { useHistory } from 'react-router-dom'
 
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -126,6 +127,7 @@ const data = [
   }
 ]
 const Projects = () => {
+  const history = useHistory();
   return (
     <React.Fragment>
       <div className="page-content">
@@ -138,28 +140,28 @@ const Projects = () => {
             <Breadcrumbs title="DOP" breadcrumbItem="Dashboard" />
             <div className='btnLinkGroup'>
               <div className='row'>
-                <div className='col-md-2'>
+                <div className='col-md-2' onClick={() => history.push('/newProject')}>
                   <div>New Project</div>
                   <div className='plusIcon'>
                     <img src={PlusIcon} width={40} alt='' />
                   </div>
                 </div>
-                <div className='col-md-2'>
+                <div className='col-md-2' onClick={() => history.push('/newCustomer')}>
                   <div>New Customer</div>
                   <div className='plusIcon'>
                     <img src={PlusIcon} width={40} alt='' />
                   </div>
                 </div>
-                <div className='col-md-2'>
+                <div className='col-md-2' onClick={() => history.push('/projects')}>
                   <div>Projects</div>
                 </div>
-                <div className='col-md-2'>
+                <div className='col-md-2' onClick={() => history.push('/invoices')}>
                   <div>Invoices</div>
                 </div>
-                <div className='col-md-2'>
+                <div className='col-md-2' onClick={() => history.push('/reports')}>
                   <div>Reports</div>
                 </div>
-                <div className='col-md-2'>
+                <div className='col-md-2' onClick={() => history.push('/customers')}>
                   <div>Customers</div>
                 </div>
               </div>

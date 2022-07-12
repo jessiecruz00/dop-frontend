@@ -98,13 +98,13 @@ const Header = props => {
               </Link>
             </div>
 
-            <button
+            {/* <button
               onClick={() => {
                 tToggle()
               }}
               type="button" className="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
               <i className="fa fa-fw fa-bars"></i>
-            </button>
+            </button> */}
 
             {/* <form className="app-search d-none d-lg-block">
               <div className="position-relative">
