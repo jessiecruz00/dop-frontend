@@ -166,7 +166,7 @@ const SidebarContent = (props) => {
                 </Link>
               </li>
               <li>
-                <Link to="/Projects" className="">
+                <Link to="/projects" className="">
                   <img src={projectsIcon} alt='' />
                   <span>{props.t("Projects")}</span>
                 </Link>

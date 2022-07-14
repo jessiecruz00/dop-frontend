@@ -31,6 +31,25 @@ const Wrapper = styled.div`
         color: #00B031;
         font-weight: 700;
       }
+      td:last-child {
+        span:first-child {
+          color: #7d7dd5;
+          cursor: pointer;
+          font-weight: 700;
+        }
+        span:nth-child(2) {
+          color: #00B031;
+          cursor: pointer;
+          font-weight: 700;
+          margin-left: 10px;
+        }
+        span:last-child {
+          color: #D14124 !important;
+          font-weight: 700;
+          margin-left: 10px;
+          cursor: pointer;
+        }
+      }
     }
   }
 `
@@ -112,6 +131,7 @@ const Projects = () => {
                     <th>Reference #</th>
                     <th>Status</th>
                     <th>Report</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>

@@ -4,6 +4,10 @@ import { Redirect } from "react-router-dom"
 //Dashboard
 import Dashboard from "../pages/Dashboard/index";
 import Projects from '../pages/Projects/index'
+import ProjectsMachines from '../pages/Projects/machines'
+import AddMachine from '../pages/Projects/addMachine'
+import MachineEdit from '../pages/Projects/editMachine'
+import ProjectsEdit from '../pages/Projects/edit'
 import Invoices from '../pages/Invoices/index'
 import Reports from '../pages/Reports/index'
 import NewProject from '../pages/NewProject/index'
@@ -33,6 +37,10 @@ const userRoutes = [
   { path: "/profile", component: userProfile },
   
   { path: "/projects", component: Projects },
+  { path: "/projects/machines/:id", component: ProjectsMachines },
+  { path: "/projects/addMachine", component: AddMachine },
+  { path: "/projects/machines/edit/:id", component: MachineEdit },
+  { path: "/projects/edit/:id", component: ProjectsEdit },
   { path: "/Invoices", component: Invoices },
   { path: "/reports", component: Reports },
   { path: "/newProject", component: NewProject },

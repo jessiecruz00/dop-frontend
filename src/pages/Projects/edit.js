@@ -4,6 +4,7 @@ import SuccessModal from '../../components/Modal/successModal'
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import PencilIcon from '../../assets/images/pencil.png'
+import { useHistory } from 'react-router-dom'
 import {
   Container,
   Button,
@@ -42,7 +43,7 @@ const Wrapper = styled.div`
       border-radius: 4px;
       color: white;
     }
-    .row:nth-child(2) {
+    .row:nth-child(3) {
       margin-top: 30px;
       font-family: 'Montserrat';
       font-weight: 700;
@@ -57,23 +58,45 @@ const Wrapper = styled.div`
       margin-top: 50px;
     }
   }
+  .back {
+    margin-bottom: 10px;
+    color: black;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    span {
+      margin-left: 10px;
+    }
+    i {
+      line-height: 20px;
+    }
+  }
 `
 const Projects = () => {
+  const history = useHistory();
   const [modal_center, setmodal_center] = useState(false);
   const tog_center = () => {
     setmodal_center(!modal_center)
     // removeBodyCss()
   }
+  const goMachine = val => {
+    history.push('/projects')
+  }
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>New Project | DOP Test Network</title>
+          <title>Projects | DOP Test Network</title>
         </MetaTags>
         <Wrapper>
           <Container fluid>
             {/* Render Breadcrumbs */}
-            <Breadcrumbs title="DOP" breadcrumbItem="New Project" />
+            <Breadcrumbs title="DOP" breadcrumbItem="Update Project" />
+            <div className='back' onClick={() => goMachine()}>
+              <i className='dripicons-arrow-thin-left'></i>
+              <span>Back</span>
+            </div>
             <div className='row'>
               <div className='col-md-12'>Enter Project Details</div>
             </div>
@@ -157,13 +180,13 @@ const Projects = () => {
             </div>
             <div className='row'>
               <div className='col-md-5'>
-                <Button onClick={() => tog_center()}>Create Project</Button>
+                <Button onClick={() => tog_center()}>Update & Save</Button>
               </div>
             </div>
           </Container>
           <SuccessModal
             title='Successfully!'
-            content='New project created'
+            content='This project updated'
             modal_center={modal_center}
             setmodal_center={setmodal_center}
             tog_center={tog_center}

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import TrComponent from '../../components/Dashboard/TrComponent'
-import PlusIcon from '../../assets/images/adminIcons/plusIcon.svg'
+import { ReactComponent as PlusIcon } from '../../assets/images/adminIcons/plusIcon.svg'
 import {
   Container,
   Table
@@ -17,6 +17,9 @@ const Wrapper = styled.div`
     position: absolute;
     bottom: -15px;
     right: -5px;
+    svg path:first-child {
+      transition: fill 0.7s;
+    }
   }
   .btnLinkGroup {
     margin-bottom: 30px;
@@ -35,6 +38,15 @@ const Wrapper = styled.div`
       box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.06);
       border-radius: 4px;
       padding: 50px 0;
+      transition: box-shadow 0.7s;
+    }
+    .col-md-2:hover {
+      &>div:first-child {
+        box-shadow: 0px 4px 25px 10px rgb(0 0 0 / 6%);
+      }
+      .plusIcon svg path:first-child {
+        fill: #D14124;
+      }
     }
     .col-md-2:not(:last-child) {
       padding-right: 0px 10px;
@@ -143,13 +155,13 @@ const Projects = () => {
                 <div className='col-md-2' onClick={() => history.push('/newProject')}>
                   <div>New Project</div>
                   <div className='plusIcon'>
-                    <img src={PlusIcon} width={40} alt='' />
+                    <PlusIcon />
                   </div>
                 </div>
                 <div className='col-md-2' onClick={() => history.push('/newCustomer')}>
                   <div>New Customer</div>
                   <div className='plusIcon'>
-                    <img src={PlusIcon} width={40} alt='' />
+                    <PlusIcon />
                   </div>
                 </div>
                 <div className='col-md-2' onClick={() => history.push('/projects')}>
