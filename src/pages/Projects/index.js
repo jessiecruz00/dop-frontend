@@ -1,58 +1,17 @@
 import React from 'react';
 import MetaTags from 'react-meta-tags';
+import { useHistory } from 'react-router-dom'
 
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import TrComponent from '../../components/Projects/TrComponent'
 import {
   Container,
-  Table
+  Table,
+  Button
 } from "reactstrap";
-import styled from 'styled-components'
+import * as ST from './styles'
 
-const Wrapper = styled.div`
-  table {
-    tr {
-      border-style: none !important;
-      th {
-        background: #ccc;
-      }
-      td:not(:last-child), th:not(:last-child) {
-        position: relative;
-        &::after {
-          height: 50%;
-          border-right: 1px solid gainsboro;
-          content: '';
-          position: absolute;
-          right: 0;
-        }
-      }
-      td.greenBg {
-        color: #00B031;
-        font-weight: 700;
-      }
-      td:last-child {
-        span:first-child {
-          color: #7d7dd5;
-          cursor: pointer;
-          font-weight: 700;
-        }
-        span:nth-child(2) {
-          color: #00B031;
-          cursor: pointer;
-          font-weight: 700;
-          margin-left: 10px;
-        }
-        span:last-child {
-          color: #D14124 !important;
-          font-weight: 700;
-          margin-left: 10px;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-`
 const data = [
   {
     sesProjectId: 8767676,
@@ -110,16 +69,23 @@ const data = [
   }
 ]
 const Projects = () => {
+  const history = useHistory()
+  const goNewProjectPage = () => {
+    history.push('/newProject')
+  }
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
           <title>Projects | DOP Test Network</title>
         </MetaTags>
-        <Wrapper>
+        <ST.Wrapper>
           <Container fluid>
             {/* Render Breadcrumbs */}
             <Breadcrumbs title="DOP" breadcrumbItem="Projects" />
+            <div>
+              <Button className='newProject' onClick={() => goNewProjectPage()}>New Customer</Button>
+            </div>
             <div className="table-responsive">
               <Table className="table table-striped mb-0">
                 <thead>
@@ -142,7 +108,7 @@ const Projects = () => {
               </Table>
             </div>
           </Container>
-        </Wrapper>
+        </ST.Wrapper>
       </div>
     </React.Fragment>
   )

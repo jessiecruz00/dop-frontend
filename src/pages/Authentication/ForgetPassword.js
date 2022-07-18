@@ -15,7 +15,7 @@ import { AvForm, AvField } from "availity-reactstrap-validation"
 import { userForgetPassword } from "../../store/actions"
 
 // import images
-import logo from "../../assets/images/logo-sm.svg"
+import logo from "../../assets/images/logo-sm-full.png"
 import CarouselPage from "./CarouselPage"
 
 const ForgetPasswordPage = props => {
@@ -34,7 +34,7 @@ const ForgetPasswordPage = props => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Forget Password | Minia - React Admin & Dashboard Template
+          Forget Password | DOP Test Network
         </title>
       </MetaTags>
       <div className="auth-page">
@@ -46,13 +46,12 @@ const ForgetPasswordPage = props => {
                   <div className="d-flex flex-column h-100">
                     <div className="mb-4 mb-md-5 text-center">
                       <Link to="/dashboard" className="d-block auth-logo">
-                        <img src={logo} alt="" height="28" /> <span className="logo-txt">Minia</span>
+                        <img src={logo} alt="" width="200" />
                       </Link>
                     </div>
                     <div className="auth-content my-auto">
                       <div className="text-center">
                         <h5 className="mb-0">Reset Password</h5>
-                        <p className="text-muted mt-2">Reset Password with Minia.</p>
                       </div>
 
                       {forgetError && forgetError ? (
@@ -85,12 +84,9 @@ const ForgetPasswordPage = props => {
                       </AvForm>
 
                       <div className="mt-5 text-center">
-                        <p className="text-muted mb-0">Remember It ?  <a href="auth-login.html"
+                        <p className="text-muted mb-0">Remember It ?  <a href="/register"
                           className="text-primary fw-semibold"> Sign In </a> </p>
                       </div>
-                    </div>
-                    <div className="mt-4 mt-md-5 text-center">
-                      <p className="mb-0">© {new Date().getFullYear()} Minia   . Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
                     </div>
                   </div>
                 </div>

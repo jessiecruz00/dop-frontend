@@ -65,6 +65,9 @@ const Wrapper = styled.div`
       color: #6C6C6C;
     }
   }
+  #sidebar-menu > ul > li > a {
+    margin-left: -5px;
+  }
 `
 const SidebarContent = (props) => {
   const ref = useRef();
@@ -143,9 +146,9 @@ const SidebarContent = (props) => {
   }
   return (
     <React.Fragment>
-      <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
-        <div id="sidebar-menu">
-          <Wrapper>
+      <Wrapper>
+        <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
+          <div id="sidebar-menu">
             <ul className="metismenu list-unstyled" id="side-menu">
               <li>
                 <Link to="/dashboard" className="">
@@ -153,7 +156,7 @@ const SidebarContent = (props) => {
                   <span>{props.t("Dashboard")}</span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/newProject" className="">
                   <img src={newProjectIcon} alt='' />
                   <span>{props.t("New Project")}</span>
@@ -164,11 +167,17 @@ const SidebarContent = (props) => {
                   <img src={newCustomerIcon} alt='' />
                   <span>{props.t("New Customer")}</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/projects" className="">
                   <img src={projectsIcon} alt='' />
                   <span>{props.t("Projects")}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/customers" className="">
+                  <img src={customersIcon} alt='' />
+                  <span>{props.t("Customers")}</span>
                 </Link>
               </li>
               <li>
@@ -184,27 +193,21 @@ const SidebarContent = (props) => {
                 </Link>
               </li>
               <li>
-                <Link to="/customers" className="">
-                  <img src={customersIcon} alt='' />
-                  <span>{props.t("Customers")}</span>
-                </Link>
-              </li>
-              <li>
                 <Link to="/settings" className="">
                   <img src={settingsIcon} alt='' />
                   <span>{props.t("Settings")}</span>
                 </Link>
               </li>
             </ul>
-            <div className="logoutBtn">
+            {/* <div className="logoutBtn">
               <Link to="/logout" className="">
                 <img src={logoutIcon} alt='' />
                 <span>{props.t("Logout")}</span>
               </Link>
-            </div>
-          </Wrapper>
-        </div>
-      </SimpleBar>
+            </div> */}
+          </div>
+        </SimpleBar>
+      </Wrapper>
     </React.Fragment>
   );
 };

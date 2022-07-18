@@ -1,14 +1,20 @@
+import jwt from 'jwt-decode'
+
 import {
   LOGIN_USER,
   LOGIN_SUCCESS,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
   API_ERROR,
+  VERIFY_SUCCESS,
+  VERIFY_FAILED
 } from "./actionTypes"
 
 const initialState = {
   error: "",
   loading: false,
+  verifyMessage: 'verifying',
+  user: localStorage.getItem('access_token') && jwt(localStorage.getItem('access_token')) || null
 }
 
 const login = (state = initialState, action) => {
@@ -23,6 +29,7 @@ const login = (state = initialState, action) => {
       state = {
         ...state,
         loading: false,
+        user: action.user
       }
       break
     case LOGOUT_USER:
@@ -33,6 +40,18 @@ const login = (state = initialState, action) => {
       break
     case API_ERROR:
       state = { ...state, error: action.payload, loading: false }
+      break
+    case VERIFY_SUCCESS:
+      state = {
+        ...state,
+        verifyMessage: 'success'
+      }
+      break
+    case VERIFY_FAILED:
+      state = {
+        ...state,
+        verifyMessage: 'failed'
+      }
       break
     default:
       state = { ...state }

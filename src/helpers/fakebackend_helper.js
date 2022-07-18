@@ -46,8 +46,10 @@ const postFakeRegister = data => {
 }
 
 // Login Method
-const postFakeLogin = data => post(url.POST_FAKE_LOGIN, data)
+export const postLogin = data => post(url.POST_LOGIN, data)
 
+// Verify
+export const postVerify = data => get(`/verify-email/${data}`)
 // postForgetPwd
 const postFakeForgetPwd = data => post(url.POST_FAKE_PASSWORD_FORGET, data)
 
@@ -57,35 +59,8 @@ const postJwtProfile = data => post(url.POST_EDIT_JWT_PROFILE, data)
 const postFakeProfile = data => post(url.POST_EDIT_PROFILE, data)
 
 // Register Method
-const postJwtRegister = (url, data) => {
-  return axios
-    .post(url, data)
-    .then(response => {
-      if (response.status >= 200 || response.status <= 299) return response.data
-      throw response.data
-    })
-    .catch(err => {
-      var message
-      if (err.response && err.response.status) {
-        switch (err.response.status) {
-          case 404:
-            message = "Sorry! the page you are looking for could not be found"
-            break
-          case 500:
-            message =
-              "Sorry! something went wrong, please contact our support team"
-            break
-          case 401:
-            message = "Invalid credentials"
-            break
-          default:
-            message = err[1]
-            break
-        }
-      }
-      throw message
-    })
-}
+export const postRegister = data => post(url.POST_REGISTER, data)
+
 
 // Login Method
 const postJwtLogin = data => post(url.POST_FAKE_JWT_LOGIN, data)
@@ -281,11 +256,9 @@ export {
   getLoggedInUser,
   isUserAuthenticated,
   postFakeRegister,
-  postFakeLogin,
   postFakeProfile,
-  postFakeForgetPwd,
-  postJwtRegister,
   postJwtLogin,
+  postFakeForgetPwd,
   postJwtForgetPwd,
   postJwtProfile,
   getProductComents,

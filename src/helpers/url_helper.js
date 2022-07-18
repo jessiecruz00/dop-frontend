@@ -109,3 +109,9 @@ export const ON_LIKNE_COMMENT = "/comments-product-action"
 export const ON_ADD_REPLY = "/comments-product-add-reply"
 
 export const ON_ADD_COMMENT = "/comments-product-add-comment"
+
+
+// start DopTestNetwork API
+export const POST_LOGIN = '/auth/sign-in'
+export const POST_REGISTER = '/auth/sign-up'
+export const POST_VERIFY = '/verify-email'

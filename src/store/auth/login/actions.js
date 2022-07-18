@@ -5,6 +5,9 @@ import {
   LOGOUT_USER_SUCCESS,
   API_ERROR,
   SOCIAL_LOGIN,
+  VERIFY_USER,
+  VERIFY_SUCCESS,
+  VERIFY_FAILED
 } from "./actionTypes"
 
 export const loginUser = (user, history) => {
@@ -46,5 +49,26 @@ export const socialLogin = (data, history, type) => {
   return {
     type: SOCIAL_LOGIN,
     payload: { data, history, type },
+  }
+}
+
+export const verifyUser = (data, history, type) => {
+  return {
+    type: VERIFY_USER,
+    payload: { data, history },
+  }
+}
+
+export const verifySuccess = () => {
+  return {
+    type: VERIFY_SUCCESS,
+    payload: {},
+  }
+}
+
+export const verifyFiled = () => {
+  return {
+    type: VERIFY_FAILED,
+    payload: {},
   }
 }

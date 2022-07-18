@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
 // import images
-import logo from "../../assets/images/logo-sm.png"
+import logoFull from '../../assets/images/logo-sm-full.png'
 import CarouselPage from "./CarouselPage"
 import styled from 'styled-components'
 
@@ -86,7 +86,7 @@ const Register = props => {
                     <div className="d-flex flex-column h-100">
                       <div className="mb-4 mb-md-5 text-center">
                         <Link to="/dashboard" className="d-block auth-logo">
-                          <img src={logo} alt="" width="200" />
+                          <img src={logoFull} alt="" width="200" />
                         </Link>
                       </div>
                       <div className="auth-content my-auto">
@@ -138,6 +138,14 @@ const Register = props => {
                               required
                               placeholder="Enter Password"
                             />
+                          </div>
+                          <div className="mb-3">
+                            <div className="form-check">
+                              <input className="form-check-input" type="checkbox" id="remember-check" />
+                              <label className="form-check-label" htmlFor="remember-check">
+                                You can choose the company you want
+                              </label>
+                            </div>
                           </div>
                           <div className="mb-3">
                             <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">Register</button>

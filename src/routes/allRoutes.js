@@ -23,6 +23,7 @@ import Login from "../pages/Authentication/Login"
 import Logout from "../pages/Authentication/Logout"
 import Register from "../pages/Authentication/Register"
 import ForgetPwd from "../pages/Authentication/ForgetPassword"
+import VerifyEmail from '../pages/Authentication/VerifyEmail'
 
 //Utility page
 import Homepage from "../pages/Homepage"
@@ -60,6 +61,7 @@ const authRoutes = [
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },
   { path: "/register", component: Register },
+  { path: "/verify-email/:token", component: VerifyEmail },
 
   //Utility page
   { path: "/homepage", component: Homepage },

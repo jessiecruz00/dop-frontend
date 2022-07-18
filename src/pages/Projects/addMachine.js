@@ -12,66 +12,8 @@ import {
   Input,
   FormGroup
 } from "reactstrap";
-import styled from 'styled-components'
+import * as ST from './styles'
 
-const Wrapper = styled.div`
-  .back {
-    margin-bottom: 10px;
-    color: black;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    span {
-      margin-left: 10px;
-    }
-    i {
-      line-height: 20px;
-    }
-  }
-  .form-group {
-    margin-bottom: 15px;
-    position: relative;
-    span.inputTitle {
-      position: absolute;
-      top: -10px;
-      left: 15px;
-      padding: 0 8px;
-      background: white;
-    }
-    img {
-      position: absolute;
-      top: 12px;
-      right: 10px;
-      width: 12px;
-      height: auto;
-    }
-  }
-  header {
-    font-style: normal;
-    font-weight: 500;
-    color: #7F7F7F;
-    margin-bottom: 20px;
-    span {
-      font-weight: 700;
-      color: #000000;
-    }
-  }
-  footer {
-    .row:last-child {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-    }
-    button {
-      width: 100%;
-      background: linear-gradient(90deg, #D14124 -0.05%, #B02509 99.95%);
-      box-shadow: 0px 4px 25px rgba(255, 0, 0, 0.2);
-      border-radius: 4px;
-      color: white;
-    }
-  }
-`
 const Projects = () => {
   const history = useHistory();
   const [modal_center, setmodal_center] = useState(false);
@@ -88,7 +30,7 @@ const Projects = () => {
         <MetaTags>
           <title>Projects | DOP Test Network</title>
         </MetaTags>
-        <Wrapper>
+        <ST.AddMachineWrapper>
           <Container fluid>
             {/* Render Breadcrumbs */}
             <Breadcrumbs title="DOP" breadcrumbItem="Add Device" />
@@ -163,7 +105,7 @@ const Projects = () => {
             setmodal_center={setmodal_center}
             tog_center={tog_center}
           />
-        </Wrapper>
+        </ST.AddMachineWrapper>
       </div>
     </React.Fragment>
   )

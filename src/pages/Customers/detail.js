@@ -10,84 +10,9 @@ import {
   Table,
   Button
 } from "reactstrap";
-import styled from 'styled-components'
+import * as ST from './styles'
 
-const Wrapper = styled.div`
-  button.newCustomer {
-    background: linear-gradient(90deg, #D14124 -0.05%, #B02509 99.95%);
-    box-shadow: 0px 4px 25px rgba(255, 0, 0, 0.2);
-    border-radius: 4px;
-    color: white;
-    margin-bottom: 20px;
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-  .panel {
-    .col-md-6 {
-      text-align: right;
-    }
-    button {
-      background: linear-gradient(90deg, #D14124 -0.05%, #B02509 99.95%);
-      box-shadow: 0px 4px 25px rgba(255, 0, 0, 0.2);
-      border-radius: 4px;
-      color: white;
-      margin-bottom: 20px;
-      padding-left: 25px;
-      padding-right: 25px;
-    }
-    .col-md-3 {
-      margin-bottom: 20px;
-      header {
-        font-style: normal;
-        font-weight: 700;
-        color: #D14124;
-      }
-      div {
-        font-style: normal;
-        font-weight: 500;
-        color: #7F7F7F;
-      }
-      nav {
-        font-style: normal;
-        font-weight: 700;
 
-        color: #000000;
-      }
-    }
-  }
-  .table-responsive header {
-    font-family: 'Montserrat';
-    font-weight: 700;
-    font-style: normal;
-    font-size: 22px;
-    text-align: center;
-    margin-bottom: 30px;
-    padding-top: 30px;
-    border-top: 1px solid #cccccc;
-  }
-  table {
-    tr {
-      border-style: none !important;
-      th {
-        background: #ccc;
-      }
-      td:not(:last-child), th:not(:last-child) {
-        position: relative;
-        &::after {
-          height: 50%;
-          border-right: 1px solid gainsboro;
-          content: '';
-          position: absolute;
-          right: 0;
-        }
-      }
-      td.greenBg {
-        color: #00B031;
-        font-weight: 700;
-      }
-    }
-  }
-`
 const data = [
   {
     projectName: 8767676,
@@ -155,7 +80,7 @@ const Projects = () => {
         <MetaTags>
           <title>Customer/Detail | DOP Test Network</title>
         </MetaTags>
-        <Wrapper>
+        <ST.DetailWrapper>
           <Container fluid>
             {/* Render Breadcrumbs */}
             <Breadcrumbs title="DOP" breadcrumbItem="Customer/Detail" />
@@ -199,7 +124,7 @@ const Projects = () => {
               </Table>
             </div>
           </Container>
-        </Wrapper>
+        </ST.DetailWrapper>
       </div>
     </React.Fragment>
   )

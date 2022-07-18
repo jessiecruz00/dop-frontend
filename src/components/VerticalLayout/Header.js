@@ -22,6 +22,7 @@ import LightDark from "../CommonForBoth/Menus/LightDark";
 
 // import images
 import logoSvg from "../../assets/images/logo-sm.png"
+import logoFullSvg from "../../assets/images/logo-sm-full.png"
 import github from "../../assets/images/brands/github.png"
 import bitbucket from "../../assets/images/brands/bitbucket.png"
 import dribbble from "../../assets/images/brands/dribbble.png"
@@ -81,30 +82,30 @@ const Header = props => {
             <div className="navbar-brand-box">
               <Link to="/dashboard" className="logo logo-dark">
                 <span className="logo-sm">
-                  <img style={{ width: 140, height: 'auto' }} src={logoSvg} alt="" height="24" />
+                  <img height='24' src={logoSvg} alt="" />
                 </span>
                 <span className="logo-lg">
-                  <img style={{ width: 140, height: 'auto' }} src={logoSvg} alt="" height="24" />
+                  <img style={{ width: 140, height: 'auto' }} src={logoFullSvg} alt="" height="24" />
                 </span>
               </Link>
 
               <Link to="/dashboard" className="logo logo-light">
                 <span className="logo-sm">
-                  <img style={{ width: 140, height: 'auto' }} src={logoSvg} alt="" height="24" />
+                  <img height='24' src={logoSvg} alt="" />
                 </span>
                 <span className="logo-lg">
-                  <img style={{ width: 140, height: 'auto' }} src={logoSvg} alt="" height="24" />
+                  <img style={{ width: 140, height: 'auto' }} src={logoFullSvg} alt="" height="24" />
                 </span>
               </Link>
             </div>
 
-            {/* <button
+            <button
               onClick={() => {
                 tToggle()
               }}
               type="button" className="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
               <i className="fa fa-fw fa-bars"></i>
-            </button> */}
+            </button>
 
             {/* <form className="app-search d-none d-lg-block">
               <div className="position-relative">
@@ -143,8 +144,8 @@ const Header = props => {
 
           </div>
           <div className="d-flex">
-            <div className="dropdown d-inline-block d-lg-none ms-2">
-              {/* <button
+            {/* <div className="dropdown d-inline-block d-lg-none ms-2">
+              <button
                 onClick={() => {
                   setsearch(!search)
                 }}
@@ -153,8 +154,8 @@ const Header = props => {
                 id="page-header-search-dropdown"
               >
                 <i className="mdi mdi-magnify" />
-              </button> */}
-              {/* <div
+              </button>
+              <div
                 className={
                   search
                     ? "dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 show"
@@ -179,13 +180,13 @@ const Header = props => {
                     </div>
                   </div>
                 </form>
-              </div> */}
-            </div>
+              </div>
+            </div> */}
 
             {/* <LanguageDropdown /> */}
 
             {/* light / dark mode */}
-            {/* <LightDark layoutMode={props['layoutMode']} onChangeLayoutMode={onChangeLayoutMode} /> */}
+            <LightDark layoutMode={props['layoutMode']} onChangeLayoutMode={onChangeLayoutMode} />
 
             {/* <Dropdown
               className="d-none d-lg-inline-block ms-1"
@@ -250,8 +251,8 @@ const Header = props => {
               </DropdownMenu>
             </Dropdown> */}
 
-            {/* <NotificationDropdown /> */}
-            {/* <div
+            <NotificationDropdown />
+            <div
               onClick={toggleTopDrawer} disabled={open}
               className="dropdown d-inline-block"
             >
@@ -264,7 +265,7 @@ const Header = props => {
                   className="icon-lg"
                 />
               </button>
-            </div> */}
+            </div>
             <ProfileMenu />
 
           </div>

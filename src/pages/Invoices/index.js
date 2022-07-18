@@ -8,39 +8,8 @@ import {
   Container,
   Table
 } from "reactstrap";
-import styled from 'styled-components'
+import * as ST from './styles'
 
-const Wrapper = styled.div`
-  table {
-    thead {
-
-    }
-    tr {
-      border-style: hidden !important;
-      th {
-        background: #ccc;
-      }
-      td:not(:last-child), th:not(:last-child) {
-        position: relative;
-        &::after {
-          height: 50%;
-          border-right: 1px solid gainsboro;
-          content: '';
-          position: absolute;
-          right: 0;
-        }
-      }
-      td:last-child a {
-        color: #D14124 !important;
-        font-weight: 700;
-      }
-      td.greenBg {
-        color: #00B031;
-        font-weight: 700;
-      }
-    }
-  }
-`
 const data = [
   {
     invoiceId: 8767676,
@@ -98,7 +67,7 @@ const Invoices = () => {
         <MetaTags>
           <title>Invoices | DOP Test Network</title>
         </MetaTags>
-        <Wrapper>
+        <ST.Wrapper>
           <Container fluid>
             {/* Render Breadcrumbs */}
             <Breadcrumbs title="DOP" breadcrumbItem="Invoices" />
@@ -123,7 +92,7 @@ const Invoices = () => {
               </Table>
             </div>
           </Container>
-        </Wrapper>
+        </ST.Wrapper>
       </div>
     </React.Fragment>
   )

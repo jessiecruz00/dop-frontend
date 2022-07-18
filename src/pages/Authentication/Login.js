@@ -21,7 +21,7 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import { loginUser, socialLogin } from "../../store/actions"
 
 // import images
-import logo from "../../assets/images/logo-sm.png"
+import logoFull from '../../assets/images/logo-sm-full.png'
 
 //Import config
 import { facebook, google } from "../../config"
@@ -131,7 +131,7 @@ const Login = props => {
                     <div className="d-flex flex-column h-100">
                       <div className="mb-4 mb-md-5 text-center">
                         <Link to="/dashboard" className="d-block auth-logo">
-                          <img src={logo} alt="" width="200" />
+                          <img src={logoFull} alt="" width="200" />
                         </Link>
                       </div>
                       <div className="auth-content">
@@ -180,7 +180,7 @@ const Login = props => {
                                 </div>
                                 <div className="flex-shrink-0">
                                   <div className="">
-                                    <Link to="/auth-recoverpw" className="text-muted">Forgot password</Link>
+                                    <Link to="/forgot-password" className="text-muted">Forgot password</Link>
                                   </div>
                                 </div>
                               </div>
