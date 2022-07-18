@@ -123,11 +123,20 @@ const Register = props => {
 
                           <div className="mb-3">
                             <AvField
-                              name="username"
-                              label="Username"
+                              name="firstname"
+                              label="Firstname"
                               type="text"
                               required
-                              placeholder="Enter username"
+                              placeholder="Enter firstname"
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <AvField
+                              name="lastname"
+                              label="Lastname"
+                              type="text"
+                              required
+                              placeholder="Enter lastname"
                             />
                           </div>
                           <div className="mb-3">
