@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap"
+import { useSelector, useDispatch } from "react-redux"
 
 //i18n
 import { withTranslation } from "react-i18next"
@@ -20,22 +21,10 @@ const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
 
-  const [username, setusername] = useState("Admin")
 
-  useEffect(() => {
-    if (localStorage.getItem("authUser")) {
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-        const obj = JSON.parse(localStorage.getItem("authUser"))
-        setusername(obj.displayName)
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        const obj = JSON.parse(localStorage.getItem("authUser"))
-        setusername(obj.username)
-      }
-    }
-  }, [props.success])
+  const { currentUser } = useSelector(state => ({
+    currentUser: state.Login.user,
+  }))
 
   return (
     <React.Fragment>
@@ -50,8 +39,8 @@ const ProfileMenu = props => {
           tag="button"
         >
           <div className='d-xl-inline-block d-flex justify-content-end'>
-            <span className="d-none d-xl-inline-block ms-2 me-1"><b>{username}</b></span><br />
-            <span className="d-none d-xl-inline-block ms-2 me-1">{username}@gmail.com</span>
+            <span className="d-none d-xl-inline-block ms-2 me-1"><b>{currentUser?.firstname} {currentUser?.lastname}</b></span><br />
+            <span className="d-none d-xl-inline-block ms-2 me-1">{currentUser?.email}</span>
           </div>
           {/* <i className="mdi mdi-chevron-down d-none d-xl-inline-block" /> */}
           <img

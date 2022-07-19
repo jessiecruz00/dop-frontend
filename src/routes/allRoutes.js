@@ -12,6 +12,8 @@ import Invoices from '../pages/Invoices/index'
 import Reports from '../pages/Reports/index'
 import NewProject from '../pages/NewProject/index'
 import Settings from '../pages/Settings/index'
+import Companies from '../pages/Settings/Companies'
+import Affairs from '../pages/Settings/Affairs'
 import NewCoustomer from '../pages/NewCoustomer/index'
 import Customers from '../pages/Customers/index'
 import CustomerDetail from '../pages/Customers/detail.js'
@@ -45,7 +47,9 @@ const userRoutes = [
   { path: "/Invoices", component: Invoices },
   { path: "/reports", component: Reports },
   { path: "/newProject", component: NewProject },
-  { path: "/settings", component: Settings },
+  { path: "/setting", component: Settings },
+  { path: "/settings/company", component: Companies },
+  { path: "/settings/affair", component: Affairs },
   { path: "/newCustomer", component: NewCoustomer },
   { path: "/customers", component: Customers },
   { path: "/customers/detail/:id", component: CustomerDetail },

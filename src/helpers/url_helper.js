@@ -115,3 +115,8 @@ export const ON_ADD_COMMENT = "/comments-product-add-comment"
 export const POST_LOGIN = '/auth/sign-in'
 export const POST_REGISTER = '/auth/sign-up'
 export const POST_VERIFY = '/verify-email'
+
+// company API
+export const REQUEST_COMPANY = '/company/create'
+export const REQUEST_CHECK = '/company/check'
+export const UPDATE_COMPANY = '/company/update'

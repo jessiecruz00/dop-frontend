@@ -40,9 +40,7 @@ const Wrapper = styled.div`
       margin-left: 10px;
       color: #6C6C6C
     }
-    &:first-child {
-      margin-top: 30px;
-    }
+    
   }
   .list-unstyled li.mm-active {
     background: white;
@@ -67,6 +65,18 @@ const Wrapper = styled.div`
   }
   #sidebar-menu > ul > li > a {
     margin-left: -5px;
+  }
+  #sidebar-menu .has-arrow:after {
+    margin-top: 4px !important;
+  }
+  #sidebar-menu .sub-menu {
+    padding-left: 15px;
+    
+    a {
+      font-family: 'Montserrat';
+      font-size: 18px;
+      color: #6C6C6C;
+    }
   }
 `
 const SidebarContent = (props) => {
@@ -193,10 +203,21 @@ const SidebarContent = (props) => {
                 </Link>
               </li>
               <li>
-                <Link to="/settings" className="">
+                <Link to="/settings" className="has-arrow">
                   <img src={settingsIcon} alt='' />
                   <span>{props.t("Settings")}</span>
                 </Link>
+                <ul className="sub-menu">
+                  <li>
+                    <Link to="/settings/company">{props.t("Company")}</Link>
+                  </li>
+                  <li>
+                    <Link to="/settings/affair">{props.t("Affair")}</Link>
+                  </li>
+                  <li>
+                    <Link to="/setting">{props.t("Profile")}</Link>
+                  </li>
+                </ul>
               </li>
             </ul>
             {/* <div className="logoutBtn">

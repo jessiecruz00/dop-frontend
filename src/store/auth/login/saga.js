@@ -26,8 +26,8 @@ function* loginUser({ payload: { user, history } }) {
     if (userData.verified) {
       localStorage.setItem("access_token", JSON.stringify(response.access_token))
       yield put(loginSuccess(userData))
-  
-      history.push("/dashboard")
+      window.location.href = '/dashboard'
+      // history.push("/dashboard")
     } else {
       yield put(apiError('You have to verify your email.'))
     }
