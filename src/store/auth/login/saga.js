@@ -53,8 +53,8 @@ function* verifyUser({ payload: { data, history } }) {
       const userData = jwt(response.access_token)
       localStorage.setItem("access_token", JSON.stringify(response.access_token))
       yield put(loginSuccess(userData))
-  
-      history.push("/dashboard")
+      window.location.href = '/dashboard'
+      // history.push("/dashboard")
     } else {
       yield put(verifyFiled())
     }
