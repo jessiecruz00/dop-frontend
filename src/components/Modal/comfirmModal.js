@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Button  } from "reactstrap";
 import styled from 'styled-components'
 import SuccessModal from './successModal'
-import { requestCompany } from '../../data/comany'
+import { requestCompany, outUser } from '../../data/comany'
 
 const Wrapper = styled(Modal)`
   & {
@@ -26,14 +26,25 @@ const Wrapper = styled(Modal)`
 `
 const ComfirmModal = ({ content, modal_center, tog_center, type, data }) => {
   const [modal_center1, setmodal_center] = useState(false);
+  const [title, setTitle] = useState()
+  const [contentText, setContentText] = useState()
   const onClick = () => {
     if (type === 'create-company') {
       requestCompany(data).then(() => {
+        setTitle('Your Company Account Created Successfully!')
+        setContentText('You have to wait for reply of doptestnetwork site admin')
         tog_center()
         setmodal_center(true)
       })
       // tog_center()
       // setmodal_center(!modal_center)
+    } else if (type ===  'out-user') {
+      outUser(data.id).then(() => {
+        setTitle('Deleted Successfully!')
+        setContentText('You deleted this user from company')
+        tog_center()
+        setmodal_center(true)
+      })
     }
   }
   const tog_center1 = () => {
@@ -57,8 +68,8 @@ const ComfirmModal = ({ content, modal_center, tog_center, type, data }) => {
         </div>
       </Wrapper>
       <SuccessModal
-        title='Your Company Account Created Successfully!'
-        content='You have to wait for reply of doptestnetwork site admin'
+        title={title}
+        content={contentText}
         modal_center={modal_center1}
         setmodal_center={setmodal_center}
         tog_center={tog_center1}

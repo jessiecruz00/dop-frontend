@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MetaTags from 'react-meta-tags';
 import ComfirmModal from '../../components/Modal/comfirmModal'
+import SuccessModal from '../../components/Modal/successModal'
 import { useSelector, useDispatch } from "react-redux"
 import { requestCheck, updateCompany } from '../../data/comany'
 
@@ -18,6 +19,7 @@ import * as ST from './styles'
 
 const Invoices = () => {
   const [modal_center, setmodal_center] = useState(false);
+  const [modal_center1, setmodal_center1] = useState(false);
   const [companyData, setCompanyData] = useState(false);
 
   const { currentUser } = useSelector(state => ({
@@ -27,12 +29,16 @@ const Invoices = () => {
   useEffect(() => {
     requestCheck({ create_user_id: currentUser?.sub }).then(res => {
       if (res.length && res[0].status) {
+        // console.log(res[0])
         setCompanyData(res[0])
       }
     })
   }, [])
   const tog_center = () => {
     setmodal_center(!modal_center)
+  }
+  const tog_center1 = () => {
+    setmodal_center1(!modal_center1)
   }
   const handleSubmit = (val) => {
     val.preventDefault()
@@ -91,6 +97,13 @@ const Invoices = () => {
             tog_center={tog_center}
             type={'create-company'}
             data={{ create_user_id: currentUser?.sub }}
+          />
+          <SuccessModal
+            title='Updated Successfully!'
+            content='Your company information upadated'
+            modal_center={modal_center1}
+            setmodal_center={setmodal_center1}
+            tog_center={tog_center1}
           />
         </ST.CompanyWrapper>
       </div>

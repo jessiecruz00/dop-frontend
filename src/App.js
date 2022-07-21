@@ -18,7 +18,7 @@ import NonAuthLayout from "./components/NonAuthLayout"
 // Import scss
 import "./assets/scss/theme.scss"
 import "./assets/scss/preloader.scss"
-
+import "antd/dist/antd.css";
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper"
 
