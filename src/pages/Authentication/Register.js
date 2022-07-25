@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import MetaTags from "react-meta-tags"
 import { Row, Col, Alert, Container } from "reactstrap"
+import { useParams } from "react-router-dom";
 
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation"
@@ -55,7 +56,7 @@ const Wrapper = styled.div`
 `
 const Register = props => {
   const dispatch = useDispatch()
-
+  const { company_id } = useParams();
   const { user, registrationError } = useSelector(state => ({
     user: state.Account.user,
     registrationError: state.Account.registrationError,
@@ -64,6 +65,7 @@ const Register = props => {
 
   // handleValidSubmit
   const handleValidSubmit = values => {
+    values.company_id = company_id
     dispatch(registerUser(values))
   }
 

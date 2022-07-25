@@ -7,7 +7,8 @@ import {
   LOGOUT_USER_SUCCESS,
   API_ERROR,
   VERIFY_SUCCESS,
-  VERIFY_FAILED
+  VERIFY_FAILED,
+  CHANGE_USER_INFO
 } from "./actionTypes"
 
 const initialState = {
@@ -53,6 +54,11 @@ const login = (state = initialState, action) => {
         verifyMessage: 'failed'
       }
       break
+    case CHANGE_USER_INFO:
+      state = {
+        ...state,
+        user: { ...state.user, ...action.payload.data }
+      }
     default:
       state = { ...state }
       break

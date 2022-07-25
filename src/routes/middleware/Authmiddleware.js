@@ -1,16 +1,20 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Route, Redirect } from "react-router-dom"
+import jwt from 'jwt-decode'
 
 const Authmiddleware = ({
   component: Component,
   layout: Layout,
   isAuthProtected,
+  isAdminProtected,
   ...rest
 }) => (
   <Route
     {...rest}
     render={props => {
+      const user = localStorage.getItem('access_token') && jwt(localStorage.getItem('access_token'))
+
       if (isAuthProtected && !localStorage.getItem("access_token")) {
         return (
           <Redirect
@@ -19,6 +23,24 @@ const Authmiddleware = ({
         )
       }
 
+      // pass only site super admin
+      if (isAdminProtected && user.role_id !== 1) {
+        return (
+          <Redirect
+            to={{ pathname: "/dashboard", state: { from: props.location } }}
+          />
+        )
+      }
+      
+      // pass only site user
+      // if (isAdminProtected && user.role_id == 1) {
+      //   console.log('xxxxxxxxxxxxxxxxxxx')
+      //   return (
+      //     <Redirect
+      //       to={{ pathname: "/setting-manage", state: { from: props.location } }}
+      //     />
+      //   )
+      // }
       return (
         <Layout>
           <Component {...props} />

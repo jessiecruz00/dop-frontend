@@ -10,14 +10,11 @@ import { Button, Form, Input, Row, Col, Upload, Modal, Select } from 'antd';
 import {
   Container
 } from "reactstrap";
-import PencilIcon from '../../assets/images/pencil.png'
-import avatar from '../../assets/images/users/avatar-8.jpg'
 import { requestCompanyFromRequester } from '../../data/notificate_invite';
 import * as ST from './styles'
 import { getAllCompany } from '../../data/comany'
-import { changeUserProfile, getUserCompanyInfo } from '../../data/user'
+import { changeUserProfile } from '../../data/user'
 import { changeUserInfo } from "../../store/actions"
-
 
 const { Option } = Select
 const getBase64 = (file) =>
@@ -43,22 +40,11 @@ const Projects = () => {
   const [allCompanyList, setAllCompanyList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [form] = Form.useForm()
-  const dispatch = useDispatch()
+
   const { currentUser } = useSelector(state => ({
     currentUser: state.Login.user
   }))
-  useEffect(() => {
-    getUserCompanyInfo({id: currentUser?.sub}).then((res) => {
-      const params = {
-        firstname: currentUser?.firstname,
-        lastname: currentUser?.lastname, 
-        email: currentUser?.email,
-        company_name: res[0].company_name,
-        role_name: res[0].name
-      }
-      form.setFieldsValue(params)
-    })
-  }, [currentUser])
+  const dispatch = useDispatch()
   useEffect(() => {
     getAllCompany().then(res => {
       setAllCompanyList(res)
@@ -72,8 +58,6 @@ const Projects = () => {
   const onFinish = (values) => {
     const reData = values
     delete reData.email
-    delete reData.company_name
-    delete reData.role_name
     reData.id = currentUser.sub
     changeUserProfile(reData).then(res => {
       dispatch(changeUserInfo({ firstname: reData.firstname, lastname: reData.lastname }))
@@ -83,6 +67,9 @@ const Projects = () => {
     })
   }
 
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  }
   const onFinishModal = values => {
     const params = {
       company_id: values.company_id,
@@ -119,13 +106,6 @@ const Projects = () => {
       </div>
     </div>
   );
-  const requestCompany = () => {
-    if (!currentUser.company_id) {
-      setIsModalVisible(true)
-    } else {
-      openNotificationWithIcon('error', 'Note', 'Failed: You are a stuff of company')
-    }
-  }
   const handleOk = () => {
     // if (impotedUserId) {
     //   addUserToCompany({ company_id: currentUser.company_id, id: impotedUserId}).then(() => {
@@ -144,26 +124,19 @@ const Projects = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Settings | DOP Test Network</title>
+          <title>Profile | DOP Test Network</title>
         </MetaTags>
         <ST.ProfileWrapper>
           <Container fluid>
             {/* Render Breadcrumbs */}
-            <Breadcrumbs title="DOP" breadcrumbItem="Settings" />
+            <Breadcrumbs title="DOP" breadcrumbItem="Profile" />
             <Form
               form={form}
               layout="vertical"
-              initialValues={{ remember: true }}
+              initialValues={{ firstname: currentUser?.firstname, lastname: currentUser?.lastname, email: currentUser?.email}}
               onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
             >
-              <Row>
-                <Col span={19}></Col>
-                <Col span={5} style={{ textAligin: 'right' }}>
-                  <Button type="primary" style={{ width: '100%' }} onClick={() => requestCompany()}>
-                    Request Company
-                  </Button>
-                </Col>
-              </Row>
               <Row>
                 <Col span={8}></Col>
                 <Col span={8} style={{ display: 'flex', justifyContent: 'center' }}>
@@ -182,7 +155,7 @@ const Projects = () => {
                 <Col span={8}></Col>
               </Row>
               <Row gutter={[24, 0]}>
-                <Col span={4}></Col>
+                <Col span={8}></Col>
                 <Col span={8}>
                   <Form.Item
                     label="First Name"
@@ -204,20 +177,6 @@ const Projects = () => {
                   >
                     <Input disabled />
                   </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    label="Company"
-                    name="company_name"
-                  >
-                    <Input disabled />
-                  </Form.Item>
-                  <Form.Item
-                    label="Role"
-                    name="role_name"
-                  >
-                    <Input disabled />
-                  </Form.Item>
                   <Form.Item
                     label="Password"
                     name="password"
@@ -226,16 +185,14 @@ const Projects = () => {
                     <Input.Password />
                   </Form.Item>
                 </Col>
-                <Col span={4}></Col>
+                <Col span={8}></Col>
               </Row>
               <Row>
                 <Col span={8}></Col>
-                <Col span={8}>
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                      Save
-                    </Button>
-                  </Form.Item>
+                <Col span={8} style={{ padding: 7 }}>
+                  <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                    Save
+                  </Button>
                 </Col>
                 <Col span={8}></Col>
               </Row>
@@ -259,35 +216,6 @@ const Projects = () => {
           </Modal>
         </ST.ProfileWrapper>
       </div>
-      <ST.StyleModal title="Users" visible={isModalVisible}  onCancel={handleModalCancel}>
-        <Form form={formModal} name="control-hooks" onFinish={onFinishModal}>
-          <Form.Item name="company_id" label="Companies"
-            rules={[{ required: true, message: 'This field is required' }]}
-          >  
-            <Select
-              showSearch
-              style={{ width: '100%' }}
-              placeholder="Search to Companies"
-              optionFilterProp="children"
-              onChange={val => setRequestCompanyId(val)}
-            >
-              {allCompanyList && allCompanyList.map(res => (
-                <Option key={res.id} value={res.id}>
-                  {res.company_name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <div style={{ textAlign: 'right' }}>
-            <Button htmlType="button" onClick={() => setIsModalVisible(false)}>
-              Cancel
-            </Button>
-            <Button type="primary" htmlType="submit" style={{ marginLeft: 15 }} >
-              Send
-            </Button>
-          </div>
-        </Form>
-      </ST.StyleModal>
     </React.Fragment>
   )
 }

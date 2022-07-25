@@ -1,33 +1,30 @@
 import PropTypes from "prop-types"
 import MetaTags from "react-meta-tags"
-import React from "react"
+import React, { useState } from "react"
 import { Row, Col, Alert, Container } from "reactstrap"
 
 //redux
-import { useSelector, useDispatch } from "react-redux"
-
 import { withRouter, Link } from "react-router-dom"
 
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
 // action
-import { userForgetPassword } from "../../store/actions"
+import { sendEmail } from '../../data/user'
 
 // import images
 import logo from "../../assets/images/logo-sm-full.png"
 import CarouselPage from "./CarouselPage"
 
 const ForgetPasswordPage = props => {
-  const dispatch = useDispatch()
-
-  const { forgetError, forgetSuccessMsg } = useSelector(state => ({
-    forgetError: state.ForgetPassword.forgetError,
-    forgetSuccessMsg: state.ForgetPassword.forgetSuccessMsg,
-  }))
+  const [messageState, setMessageState] = useState()
 
   function handleValidSubmit(event, values) {
-    dispatch(userForgetPassword(values, props.history))
+    sendEmail(values).then(res => {
+      console.log(res)
+      setMessageState(res)
+    })
+    // dispatch(userForgetPassword(values, props.history))
   }
 
   return (
@@ -54,14 +51,14 @@ const ForgetPasswordPage = props => {
                         <h5 className="mb-0">Reset Password</h5>
                       </div>
 
-                      {forgetError && forgetError ? (
+                      {messageState && !messageState?.success ? (
                         <Alert color="danger" style={{ marginTop: "13px" }}>
-                          {forgetError}
+                          {messageState?.message}
                         </Alert>
                       ) : null}
-                      {forgetSuccessMsg ? (
+                      {messageState && messageState?.success ? (
                         <Alert color="success" style={{ marginTop: "13px" }}>
-                          {forgetSuccessMsg}
+                          {messageState?.message}
                         </Alert>
                       ) : null}
 
@@ -84,8 +81,8 @@ const ForgetPasswordPage = props => {
                       </AvForm>
 
                       <div className="mt-5 text-center">
-                        <p className="text-muted mb-0">Remember It ?  <a href="/register"
-                          className="text-primary fw-semibold"> Sign In </a> </p>
+                        <p className="text-muted mb-0">Remember It ?  <Link to="/login"
+                          className="text-primary fw-semibold"> Sign In </Link> </p>
                       </div>
                     </div>
                   </div>

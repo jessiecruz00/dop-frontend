@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MetaTags from 'react-meta-tags';
 import ComfirmModal from '../../components/Modal/comfirmModal'
 import SuccessModal from '../../components/Modal/successModal'
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { requestCheck, updateCompany } from '../../data/comany'
 
 //import Breadcrumbs
@@ -25,11 +25,10 @@ const Invoices = () => {
   const { currentUser } = useSelector(state => ({
     currentUser: state.Login.user
   }))
-
+  
   useEffect(() => {
     requestCheck({ create_user_id: currentUser?.sub }).then(res => {
       if (res.length && res[0].status) {
-        // console.log(res[0])
         setCompanyData(res[0])
       }
     })
@@ -48,7 +47,7 @@ const Invoices = () => {
       logo: val.target.logo.value
     }
     updateCompany(data).then(res => {
-      console.log(res)
+      setmodal_center1(true)
     })
   }
   return (
@@ -61,34 +60,41 @@ const Invoices = () => {
           <Container fluid>
             {/* Render Breadcrumbs */}
             <Breadcrumbs title="DOP" breadcrumbItem="Company Admistration" />
-            {!companyData?.status ? (
-              <div>
-                <Button className='newCustomer' onClick={() => tog_center()}>New Company Request</Button>
-              </div>
-            ) : (
-              <Form onSubmit={handleSubmit}>
-                <div className='row'>
-                  <div className='col-md-5'>
-                    <FormGroup style={{ display: 'flex', height: '100px' }}>
-                      <Input name="logo" id="signature" />
-                      <span className='inputTitle'>Company Logo</span>
-                      <img src={PencilIcon} alt='' />
-                    </FormGroup>
-                    <FormGroup>
-                      <Input defaultValue={companyData?.company_name} name="company_name" />
-                      <span className='inputTitle'>Company Name</span>
-                      <img src={PencilIcon} alt='' />
-                    </FormGroup>
-                  </div>
+
+            {/* create only company admins */}
+
+            {!currentUser?.company_id && currentUser?.role_id === 10 && (
+                <div>
+                  <Button className='newCustomer' onClick={() => tog_center()}>New Company Request</Button>
                 </div>
-                <div className='row'>
-                  <div className='col-md-5'>
-                    <Button type='submit'>Save Settings</Button>
-                  </div>
-                </div>
-              </Form>
             )}
-            
+            {currentUser?.role_id === 2 ? (
+                <Form onSubmit={handleSubmit}>
+                  <div className='row'>
+                    <div className='col-md-5'>
+                      <FormGroup style={{ display: 'flex', height: '100px' }}>
+                        <Input name="logo" id="signature" />
+                        <span className='inputTitle'>Company Logo</span>
+                        <img src={PencilIcon} alt='' />
+                      </FormGroup>
+                      <FormGroup>
+                        <Input defaultValue={companyData?.company_name} name="company_name" />
+                        <span className='inputTitle'>Company Name</span>
+                        <img src={PencilIcon} alt='' />
+                      </FormGroup>
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-md-5'>
+                      <Button type='submit'>Save Settings</Button>
+                    </div>
+                  </div>
+                </Form>
+              )
+              : (
+                <>Not allowed your role! This page is for site admins</>
+              )
+            }
           </Container>
           <ComfirmModal
             content='Do you create your new company?'
@@ -96,7 +102,7 @@ const Invoices = () => {
             setmodal_center={setmodal_center}
             tog_center={tog_center}
             type={'create-company'}
-            data={{ create_user_id: currentUser?.sub }}
+            data={{ create_user_id: currentUser?.sub, create_user_email: currentUser?.email }}
           />
           <SuccessModal
             title='Updated Successfully!'

@@ -7,7 +7,8 @@ import {
   SOCIAL_LOGIN,
   VERIFY_USER,
   VERIFY_SUCCESS,
-  VERIFY_FAILED
+  VERIFY_FAILED,
+  CHANGE_USER_INFO
 } from "./actionTypes"
 
 export const loginUser = (user, history) => {
@@ -70,5 +71,12 @@ export const verifyFiled = () => {
   return {
     type: VERIFY_FAILED,
     payload: {},
+  }
+}
+
+export const changeUserInfo = (data) => {
+  return {
+    type: CHANGE_USER_INFO,
+    payload: { data },
   }
 }

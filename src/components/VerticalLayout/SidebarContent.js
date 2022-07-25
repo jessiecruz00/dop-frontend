@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useCallback } from "react";
+import { useSelector } from "react-redux"
 import styled from 'styled-components'
 //Import Icons
-import FeatherIcon from "feather-icons-react";
+// import FeatherIcon from "feather-icons-react";
 
 // //Import Scrollbar
 import SimpleBar from "simplebar-react";
 
 //Import images
-import giftBox from "../../assets/images/giftbox.png";
+// import giftBox from "../../assets/images/giftbox.png";
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -19,14 +20,14 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import dashboardIcon from '../../assets/images/sidebarIcons/dashboard.svg'
-import newProjectIcon from '../../assets/images/sidebarIcons/newProject.svg'
-import newCustomerIcon from '../../assets/images/sidebarIcons/newCustomer.svg'
+// import newProjectIcon from '../../assets/images/sidebarIcons/newProject.svg'
+// import newCustomerIcon from '../../assets/images/sidebarIcons/newCustomer.svg'
 import projectsIcon from '../../assets/images/sidebarIcons/projects.svg'
 import reportsIcon from '../../assets/images/sidebarIcons/reports.svg'
 import invoicesIcon from '../../assets/images/sidebarIcons/invoices.svg'
 import customersIcon from '../../assets/images/sidebarIcons/customers.svg'
 import settingsIcon from '../../assets/images/sidebarIcons/settings.svg'
-import logoutIcon from '../../assets/images/sidebarIcons/logout.svg'
+// import logoutIcon from '../../assets/images/sidebarIcons/logout.svg'
 
 const Wrapper = styled.div`
   .list-unstyled li {
@@ -146,6 +147,10 @@ const SidebarContent = (props) => {
     ref.current.recalculate();
   });
 
+  const { currentUser } = useSelector(state => ({
+    currentUser: state.Login.user
+  }))
+
   function scrollElement(item) {
     if (item) {
       const currentPosition = item.offsetTop;
@@ -160,65 +165,85 @@ const SidebarContent = (props) => {
         <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
           <div id="sidebar-menu">
             <ul className="metismenu list-unstyled" id="side-menu">
-              <li>
-                <Link to="/dashboard" className="">
-                  <img src={dashboardIcon} alt='' />
-                  <span>{props.t("Dashboard")}</span>
-                </Link>
-              </li>
-              {/* <li>
-                <Link to="/newProject" className="">
-                  <img src={newProjectIcon} alt='' />
-                  <span>{props.t("New Project")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/newCustomer" className="">
-                  <img src={newCustomerIcon} alt='' />
-                  <span>{props.t("New Customer")}</span>
-                </Link>
-              </li> */}
-              <li>
-                <Link to="/projects" className="">
-                  <img src={projectsIcon} alt='' />
-                  <span>{props.t("Projects")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/customers" className="">
-                  <img src={customersIcon} alt='' />
-                  <span>{props.t("Customers")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/reports" className="">
-                  <img src={reportsIcon} alt='' />
-                  <span>{props.t("Reports")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/invoices" className="">
-                  <img src={invoicesIcon} alt='' />
-                  <span>{props.t("Invoices")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/settings" className="has-arrow">
-                  <img src={settingsIcon} alt='' />
-                  <span>{props.t("Settings")}</span>
-                </Link>
-                <ul className="sub-menu">
+              {/* Can't site super admin and user having other role */}
+              {currentUser?.role_id !== 1 && !currentUser?.role_id !== 10 ? (
+                <>
                   <li>
-                    <Link to="/settings/company">{props.t("Company")}</Link>
+                    <Link to="/dashboard" className="">
+                      <img src={dashboardIcon} alt='' />
+                      <span>{props.t("Dashboard")}</span>
+                    </Link>
+                  </li>
+                  {/* <li>
+                    <Link to="/newProject" className="">
+                      <img src={newProjectIcon} alt='' />
+                      <span>{props.t("New Project")}</span>
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/settings/affair">{props.t("Affair")}</Link>
+                    <Link to="/newCustomer" className="">
+                      <img src={newCustomerIcon} alt='' />
+                      <span>{props.t("New Customer")}</span>
+                    </Link>
+                  </li> */}
+                  <li>
+                    <Link to="/projects" className="">
+                      <img src={projectsIcon} alt='' />
+                      <span>{props.t("Projects")}</span>
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/setting">{props.t("Profile")}</Link>
+                    <Link to="/customers" className="">
+                      <img src={customersIcon} alt='' />
+                      <span>{props.t("Customers")}</span>
+                    </Link>
                   </li>
-                </ul>
-              </li>
+                  <li>
+                    <Link to="/reports" className="">
+                      <img src={reportsIcon} alt='' />
+                      <span>{props.t("Reports")}</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/invoices" className="">
+                      <img src={invoicesIcon} alt='' />
+                      <span>{props.t("Invoices")}</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/settings" className="has-arrow">
+                      <img src={settingsIcon} alt='' />
+                      <span>{props.t("Settings")}</span>
+                    </Link>
+                    <ul className="sub-menu">
+                      <li>
+                        <Link to="/settings/company">{props.t("Company")}</Link>
+                      </li>
+                      <li>
+                        <Link to="/settings/affair">{props.t("Affair")}</Link>
+                      </li>
+                      <li>
+                        <Link to="/setting">{props.t("Profile")}</Link>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link to="/settings" className="has-arrow">
+                    <img src={settingsIcon} alt='' />
+                    <span>{props.t("Settings")}</span>
+                  </Link>
+                  <ul className="sub-menu">
+                    <li>
+                      <Link to="/company-manage">{props.t("Companies")}</Link>
+                    </li>
+                    <li>
+                      <Link to="/setting-manage">{props.t("Profile")}</Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
             </ul>
             {/* <div className="logoutBtn">
               <Link to="/logout" className="">

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import MetaTags from 'react-meta-tags';
 import { useSelector, useDispatch } from "react-redux"
-import { Button, Modal, Select } from 'antd'
+import { Button, Modal, Select, Form, Input } from 'antd'
 import { getRoles, addUserToCompany } from '../../data/role'
+import { inviteUser } from '../../data/notificate_invite'
 import ComfirmModal from '../../components/Modal/comfirmModal'
 import SuccessModal from '../../components/Modal/successModal'
+import { openNotificationWithIcon } from '../../components/Modal/notification'
 
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -14,24 +16,30 @@ import {
   Table
 } from "reactstrap";
 import * as ST from './styles'
-import { getStuffs, getAllStuffsNotImported } from '../../data/comany'
+import { getStuffs, requestCheck, getAllStuffsNotImported } from '../../data/comany'
 
-const { Option } = Select
+
 const Invoices = () => {
   const [modal_center, setmodal_center] = useState(false);
   const [modal_center1, setmodal_center1] = useState(false);
   const [outUserId, setOutUserId] = useState();
   const [stuffData, setStuffData] = useState([]);
-  const [importedStuffData, setImportedStuffData] = useState([]);
-  const [impotedUserId, setImportedUserId] = useState();
   const [roleList, setLoleList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [companyData, setCompanyData] = useState(false);
 
   const { currentUser } = useSelector(state => ({
     currentUser: state.Login.user
   }))
-  
-  
+  useEffect(() => {
+    requestCheck({ create_user_id: currentUser?.sub }).then(res => {
+      if (res.length && res[0].status) {
+        setCompanyData(res[0])
+      }
+    })
+  }, [])
+  const [form] = Form.useForm()
+  const validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const tog_center = () => {
     setmodal_center(!modal_center)
   }
@@ -41,11 +49,6 @@ const Invoices = () => {
   useEffect(() => {
     getStuffs({ company_id: currentUser?.company_id }).then(res => {
       setStuffData(res)
-    })
-  }, [modal_center, modal_center1])
-  useEffect(() => {
-    getAllStuffsNotImported().then(res => {
-      setImportedStuffData(res)
     })
   }, [modal_center, modal_center1])
   useEffect(() => {
@@ -61,20 +64,30 @@ const Invoices = () => {
     setIsModalVisible(true)
   }
 
-  const handleOk = () => {
-    if (impotedUserId) {
-      addUserToCompany({ company_id: currentUser.company_id, id: impotedUserId}).then(() => {
-        setIsModalVisible(false);
-        setmodal_center1(true)
-      })
-    } else {
-      alert('You have to choose user')
-    }
-  };
+  // const handleOk = () => {
+  //   if (impotedUserId) {
+  //     addUserToCompany({ company_id: currentUser.company_id, id: impotedUserId}).then(() => {
+  //       setIsModalVisible(false);
+  //       setmodal_center1(true)
+  //     })
+  //   } else {
+  //     alert('You have to choose user')
+  //   }
+  // };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const onFinish = (values) => {
+    inviteUser({ company_id: currentUser.company_id, inviter: currentUser.sub, requester_email: values.email, inviter_email: currentUser.email}).then((res) => {
+      if (res?.message === 'success') {
+        openNotificationWithIcon('success', 'Note', 'Sent your invitation successfully')
+        setIsModalVisible(false)
+      }
+    }).catch(err => {
+      openNotificationWithIcon('error', 'Note', 'Failed')
+    })
+  }
   return (
     <React.Fragment>
       <div className="page-content">
@@ -86,7 +99,17 @@ const Invoices = () => {
             {/* Render Breadcrumbs */}
             <Breadcrumbs title="DOP" breadcrumbItem="Company Stuffs" />
             <div style={{ marginBottom: 15 }}>
-              <Button type="primary" size='large' onClick={() => addUser()}>Import User</Button>
+              {/* cant't invite other and disabled users */}
+              {currentUser?.role_id !== 9 && currentUser?.role_id !== 10 && (
+                companyData?.status ? (
+                  <Button type="primary" size='large' onClick={() => addUser()}>Invite User</Button>
+                ) : (
+                  <div>
+                    <Button type="primary" disabled size='large' onClick={() => addUser()}>Invite User</Button>
+                    <span style={{ marginLeft: 20 }}>The user can't be invited because your company is not authorized. Contact to doptestnetwork.com admin!</span>
+                  </div>
+                )
+              )}
             </div>
             <div className="table-responsive">
               <Table className="table table-striped mb-0">
@@ -101,7 +124,7 @@ const Invoices = () => {
                 <tbody>
                   {stuffData && stuffData.map((res, index) => (
                     currentUser.sub !== res.id && (
-                      <TrComponent key={index} outUser={outUser} tableData={res} roleList={roleList} />
+                      <TrComponent key={index} outUser={outUser} currentUser={currentUser} tableData={res} roleList={roleList} />
                     )
                   ))}
                 </tbody>
@@ -123,23 +146,36 @@ const Invoices = () => {
             setmodal_center={setmodal_center1}
             tog_center={tog_center1}
           />
-          <Modal title="Users" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <ST.StyleModal title="Users" visible={isModalVisible}  onCancel={handleCancel}>
             <p>
-              <Select
-                showSearch
-                style={{ width: '100%' }}
-                placeholder="Search to Users"
-                optionFilterProp="children"
-                onChange={val => setImportedUserId(val)}
-              >
-                {importedStuffData && importedStuffData.map(res => (
-                  <Option key={res.id} value={res.id}>
-                    {res.firstname} {res.lastname} ({res.email})
-                  </Option>
-                ))}
-              </Select>
+              {/* <Form form={form} name="control-hooks" onFinish={onFinish}> */}
+              <Form form={form} name="control-hooks" onFinish={onFinish}>
+                <Form.Item name="email" label="User"
+                  rules={[
+                    { required: true, message: 'This field is required' },
+                    {
+                      validator(_, value) {
+                        if (value && !value.match(validRegex)) {
+                          return Promise.reject('Invalid email address!')
+                        }
+                        return Promise.resolve()
+                      }
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item>
+                  <Button htmlType="button" onClick={() => setIsModalVisible(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="primary" htmlType="submit" >
+                    Send
+                  </Button>
+                </Form.Item>
+              </Form>
             </p>
-          </Modal>
+          </ST.StyleModal>
         </ST.Wrapper>
       </div>
     </React.Fragment>

@@ -26,7 +26,11 @@ function* loginUser({ payload: { user, history } }) {
     if (userData.verified) {
       localStorage.setItem("access_token", JSON.stringify(response.access_token))
       yield put(loginSuccess(userData))
-      window.location.href = '/dashboard'
+      if (userData.role_id === 1) {
+        window.location.href = '/company-manage'
+      } else {
+        window.location.href = '/dashboard'
+      }
       // history.push("/dashboard")
     } else {
       yield put(apiError('You have to verify your email.'))

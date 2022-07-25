@@ -19,6 +19,10 @@ import Customers from '../pages/Customers/index'
 import CustomerDetail from '../pages/Customers/detail.js'
 import CustomerEdit from '../pages/Customers/edit.js'
 
+//admin pages
+import SettingsManage from '../pages/Settings/setting-manage'
+import CompanyManage from '../pages/Settings/comapnay-manage'
+
 // Authentication related pages
 import userProfile from "../pages/Authentication/user-profile"
 import Login from "../pages/Authentication/Login"
@@ -26,6 +30,7 @@ import Logout from "../pages/Authentication/Logout"
 import Register from "../pages/Authentication/Register"
 import ForgetPwd from "../pages/Authentication/ForgetPassword"
 import VerifyEmail from '../pages/Authentication/VerifyEmail'
+import ResetPasssword from '../pages/Authentication/ResetPasssword'
 
 //Utility page
 import Homepage from "../pages/Homepage"
@@ -65,7 +70,9 @@ const authRoutes = [
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },
   { path: "/register", component: Register },
+  { path: "/register/:company_id", component: Register },
   { path: "/verify-email/:token", component: VerifyEmail },
+  { path: "/change-pass/:token", component: ResetPasssword },
 
   //Utility page
   { path: "/homepage", component: Homepage },
@@ -73,4 +80,10 @@ const authRoutes = [
   { path: "/", exact: true, component: () => <Redirect to="/homepage" /> }
 ]
 
-export { userRoutes, authRoutes }
+const adminRoutes = [
+  // admin page
+  { path: "/setting-manage", component: SettingsManage },
+  { path: "/company-manage", component: CompanyManage },
+]
+
+export { userRoutes, authRoutes, adminRoutes }

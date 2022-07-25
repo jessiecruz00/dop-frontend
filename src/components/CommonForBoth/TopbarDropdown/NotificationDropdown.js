@@ -2,14 +2,20 @@ import React, { useState } from "react"
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom"
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap"
+import { Button } from 'antd'
 import SimpleBar from "simplebar-react"
-
+import notificationSiteAdminData from '../../../data/swr/notifications/notificationSiteAdminData'
+import notificationCompanyAdminData from '../../../data/swr/notifications/notificationCompanyAdminData'
+import notificationCompanyUserData from '../../../data/swr/notifications/notificationCompanyUserData'
+import { joinToCompany } from '../../../data/user'
 //Import Icons
 import FeatherIcon from "feather-icons-react";
+import { useSelector, useDispatch } from "react-redux"
+import { openNotificationWithIcon } from '../../../components/Modal/notification'
+import { changeUserInfo } from "../../../store/actions"
 
 //Import images
 import avatar3 from "../../../assets/images/users/avatar-3.jpg"
-import avatar4 from "../../../assets/images/users/avatar-4.jpg"
 
 //i18n
 import { withTranslation } from "react-i18next"
@@ -18,6 +24,20 @@ const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
 
+  const { currentUser } = useSelector(state => ({
+    currentUser: state.Login.user
+  }))
+  const dispatch = useDispatch()
+  const { result: siteAdiminResult }  = notificationSiteAdminData()
+  const { result: companyAdiminResult }  = notificationCompanyAdminData({ company_id: currentUser?.company_id, id: currentUser?.sub })
+  const { result: companyUserResult }  = notificationCompanyUserData({ id: currentUser?.sub })
+  
+  const joinCompany = (company_id, id) => {
+    joinToCompany({ company_id: company_id, id: currentUser.sub, notificate_id: id }).then(res => {
+      openNotificationWithIcon('success', 'Note', 'Approved successfully')
+      dispatch(changeUserInfo({ company_id: company_id }))
+    })
+  }
   return (
     <React.Fragment>
       <Dropdown
@@ -35,7 +55,27 @@ const NotificationDropdown = props => {
             icon="bell"
             className="icon-lg"
           />
-          <span className="badge bg-danger rounded-pill">5</span>
+          {currentUser?.role_id === 1 && (
+            <>
+              {siteAdiminResult && siteAdiminResult.length > 0 && (
+                <span className="badge bg-danger rounded-pill">{siteAdiminResult.length}</span>
+              )}
+            </>
+          )}
+          {currentUser?.role_id === 2 && (
+            <>
+              {companyAdiminResult && companyAdiminResult.length > 0 && (
+                <span className="badge bg-danger rounded-pill">{companyAdiminResult.length}</span>
+              )}
+            </>
+          )}
+          {currentUser?.role_id === 10 && (
+            <>
+              {companyUserResult && companyUserResult.length > 0 && (
+                <span className="badge bg-danger rounded-pill">{companyUserResult.length}</span>
+              )}
+            </>
+          )}
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu-lg dropdown-menu-end p-0">
@@ -54,7 +94,7 @@ const NotificationDropdown = props => {
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            <Link to="" className="text-reset notification-item">
+            {/* <Link to="" className="text-reset notification-item">
               <div className="d-flex">
                 <div className="avatar-sm me-3">
                   <span className="avatar-title bg-primary rounded-circle font-size-16">
@@ -76,29 +116,143 @@ const NotificationDropdown = props => {
                   </div>
                 </div>
               </div>
-            </Link>
-            <Link to="" className="text-reset notification-item">
-              <div className="d-flex">
-                <img
-                  src={avatar3}
-                  className="me-3 rounded-circle avatar-sm"
-                  alt="user-pic"
-                />
-                <div className="flex-grow-1">
-                  <h6 className="mt-0 mb-1">James Lemire</h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t("It will seem like simplified English") + "."}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />
-                      {props.t("1 hours ago")}{" "}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link to="" className="text-reset notification-item">
+            </Link> */}
+            {currentUser?.role_id === 1 && (
+              <>
+                {siteAdiminResult?.map((res, index) => (
+                  <Link key={index} to="/company-manage" className="text-reset notification-item">
+                    <div className="d-flex">
+                        {res.logo ? (
+                          <img
+                            src={avatar3}
+                            className="me-3 rounded-circle avatar-sm"
+                            alt="user-pic"
+                          />
+                        ) : (
+                          <span 
+                            className="me-3 rounded-circle avatar-sm"
+                            style={{
+                              background: '#C03304',
+                              color: 'white',
+                              borderRadius: '20% !important',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              textTransform: 'uppercase'
+                            }}
+                          >
+                            {res.firstname[0]}{res.lastname[0]}
+                          </span>
+                        )}
+                      <div className="flex-grow-1">
+                        <h6 className="mt-0 mb-1">{res.firstname} {res.lastname} ({res.email})</h6>
+                        <div className="font-size-12 text-muted">
+                          <p className="mb-1">
+                            {props.t("has requested a new company account") + "."}
+                          </p>
+                          <p className="mb-0">
+                            <i className="mdi mdi-clock-outline" />{' '}
+                            {res.created_at}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </>
+            )}
+            {currentUser?.role_id === 2 && (
+              <>
+                {companyAdiminResult?.map((res, index) => (
+                  <Link key={index} to="/settings/affair" className="text-reset notification-item">
+                    <div className="d-flex">
+                        {res.logo ? (
+                          <img
+                            src={avatar3}
+                            className="me-3 rounded-circle avatar-sm"
+                            alt="user-pic"
+                          />
+                        ) : (
+                          <span
+                            className="me-3 rounded-circle avatar-sm"
+                            style={{
+                              background: '#C03304',
+                              color: 'white',
+                              borderRadius: '20% !important',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              textTransform: 'uppercase'
+                            }}
+                          >
+                            {res.firstname[0]}{res.lastname[0]}
+                          </span>
+                        )}
+                      <div className="flex-grow-1">
+                        <h6 className="mt-0 mb-1">{res.firstname} {res.lastname} ({res.email})</h6>
+                        <div className="font-size-12 text-muted">
+                          <p className="mb-1">
+                            {props.t("has requested to join your company") + "."}
+                          </p>
+                          <p className="mb-0">
+                            <i className="mdi mdi-clock-outline" />{' '}
+                            {res.created_at}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </>
+            )}
+            {currentUser?.role_id === 10 && (
+              <>
+                {companyUserResult?.map((res, index) => (
+                  <Link key={index} to="/settings/affair" className="text-reset notification-item">
+                    <div className="d-flex">
+                        {res.logo ? (
+                          <img
+                            src={avatar3}
+                            className="me-3 rounded-circle avatar-sm"
+                            alt="user-pic"
+                          />
+                        ) : (
+                          <span
+                            className="me-3 rounded-circle avatar-sm"
+                            style={{
+                              background: '#C03304',
+                              color: 'white',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: '20% !important',
+                              textTransform: 'uppercase'
+                            }}
+                          >
+                            {res?.firstname[0]}{res?.lastname[0]}
+                          </span>
+                        )}
+                      <div className="flex-grow-1">
+                        <h6 className="mt-0 mb-1">{res.firstname} {res.lastname} ({res.email})</h6>
+                        <div className="font-size-12 text-muted">
+                          <p className="mb-1">
+                            {props.t("has invited to join his company(") + res.company_name + ")."}
+                          </p>
+                          <p className="mb-0">
+                            <i className="mdi mdi-clock-outline" />{' '}
+                            {res.created_at}
+                          </p>
+                          <p className="mb-0" style={{marginTop: 5}}>
+                            <Button size='small' onClick={() => joinCompany(res.company_id, res.ID)}>Approve</Button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </>
+            )}
+            {/* <Link to="" className="text-reset notification-item">
               <div className="d-flex">
                 <div className="avatar-sm me-3">
                   <span className="avatar-title bg-success rounded-circle font-size-16">
@@ -144,7 +298,7 @@ const NotificationDropdown = props => {
                   </div>
                 </div>
               </div>
-            </Link>
+            </Link> */}
           </SimpleBar>
           <div className="p-2 border-top d-grid">
             <Link

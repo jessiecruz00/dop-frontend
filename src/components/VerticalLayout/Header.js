@@ -251,7 +251,7 @@ const Header = props => {
             </Dropdown> */}
 
             <NotificationDropdown />
-            <div
+            {/* <div
               onClick={toggleTopDrawer} disabled={open}
               className="dropdown d-inline-block"
             >
@@ -264,7 +264,7 @@ const Header = props => {
                   className="icon-lg"
                 />
               </button>
-            </div>
+            </div> */}
             <ProfileMenu />
 
           </div>
